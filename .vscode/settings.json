@@ -1,0 +1,15 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "todo_db",
+            "database": "${workspaceFolder:todo-cli-v2}/data/test.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

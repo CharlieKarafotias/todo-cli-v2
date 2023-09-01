@@ -1,0 +1,8 @@
+CREATE TABLE todo(
+        id INTEGER PRIMARY KEY ASC,
+        todo_name TEXT NOT NULL,
+        description TEXT,
+        priority TEXT,
+        create_date default CURRENT_TIMESTAMP,
+        complete_date TEXT
+    )
