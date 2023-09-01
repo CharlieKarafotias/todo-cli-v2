@@ -50,7 +50,6 @@ def main(conn):
     )
 
     args = parser.parse_args()
-    print(args)
 
     match args.command:
         case "init":

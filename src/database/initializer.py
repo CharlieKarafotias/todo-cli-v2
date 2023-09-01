@@ -1,7 +1,9 @@
 import sqlite3
 import os
-from utils.console_printing import print_err
+from dotenv import load_dotenv
 
+load_dotenv()
+ROOT_DIR = os.getenv("ROOT_DIR")
 
 def connect_db(db_name: str) -> sqlite3.Connection:
     """
@@ -9,7 +11,7 @@ def connect_db(db_name: str) -> sqlite3.Connection:
     @param db_name: the name of the database (file name)
     @return: the new database connection or None db can't be created
     """
-    conn = sqlite3.connect(f"./data/{db_name}.db")
+    conn = sqlite3.connect(os.path.join(ROOT_DIR, 'data', f'{db_name}.db'))
     return conn
 
 
@@ -20,7 +22,7 @@ def setup_table(conn):
     """
     cur = conn.cursor()
     schema = ""
-    with open("./src/database/schemas/create_table_todo.sqlite", "r") as f:
+    with open(os.path.join(ROOT_DIR, 'src', 'database', 'schemas', 'create_table_todo.sqlite'), "r") as f:
         schema = f.read()
 
     cur.execute(schema)
@@ -32,7 +34,7 @@ def init_db(db_name: str) -> sqlite3.Connection:
     @param db_name: the name of the database file
     @returns: A database connection with a table named todo
     """
-    if os.path.isfile(f"./data/{db_name}.db"):
+    if os.path.isfile(os.path.join(ROOT_DIR, 'data', f'{db_name}.db')):
         conn = connect_db(db_name)
     else:
         conn = connect_db(db_name)
