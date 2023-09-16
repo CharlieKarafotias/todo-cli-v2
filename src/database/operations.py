@@ -43,14 +43,16 @@ def db_read_todo(conn: Connection, id: str):
     Returns the task matching 'id' (if it exists) from the database specified by 'conn'
 
     :param conn: the database connection
-    :param id: the id of the todo
+    :param id: the id of the task
     :return: A dictionary containing the fields
     """
 
     # TODO: add in dictionary return using util that converts rows into [dictionary]
     sql = f"SELECT * FROM todo WHERE id = {id}"
     res = conn.execute(sql)
-    print(res.fetchone())
+    val = res.fetchone()
+    print(val)
+    return val
 
 
 def db_read_all(conn: Connection):

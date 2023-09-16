@@ -29,10 +29,10 @@ def setup_table(conn):
     cur = conn.cursor()
     schema = ""
     with open(
-        os.path.join(
-            ROOT_DIR, "src", "database", "schemas", "create_table_todo.sqlite"
-        ),
-        "r",
+            os.path.join(
+                ROOT_DIR, "src", "database", "schemas", "create_table_todo.sqlite"
+            ),
+            "r",
     ) as f:
         schema = f.read()
 
@@ -46,7 +46,7 @@ def init_db(db_name: str) -> sqlite3.Connection:
     :param db_name: the name of the database file
     :return: A database connection with a configured table to hold tasks
     """
-    
+
     if os.path.isfile(os.path.join(ROOT_DIR, "data", f"{db_name}.db")):
         conn = connect_db(db_name)
     else:
@@ -56,3 +56,14 @@ def init_db(db_name: str) -> sqlite3.Connection:
         conn = connect_db(db_name)
         setup_table(conn)
     return conn
+
+
+def remove_db(db_name: str) -> None:
+    """
+    Removes a database if it exists
+
+    :param db_name: the database name (file name)
+    :return: no return; removes the database if it exists
+    """
+    if os.path.isfile(os.path.join(ROOT_DIR, "data", f"{db_name}.db")):
+        os.remove(os.path.join(ROOT_DIR, "data", f"{db_name}.db"))
