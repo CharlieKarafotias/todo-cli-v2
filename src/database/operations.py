@@ -1,10 +1,18 @@
 from sqlite3 import Connection
 
-def db_create_todo(conn: Connection, fields: dict):
+
+def db_create_todo(conn: Connection, fields: dict) -> None:
     """
-    Creates a new todo in the database specified by 'conn' under the 'todo' table
-    @param conn: the database connection
-    @param fields: key-value pairs specifying the values to be added for the new todo. Supported keys: "todo_name", "description", "priority"
+    .. |keys| replace:: ["todo_name", "description", "priority"]
+
+    Create a new task in the database.
+
+    Currently, the function supports the following keys for the fields dictionary:
+    |keys|
+
+    :param conn: the database connection
+    :param fields: the values added for the task as key-value pairs
+    :return: no return; table is updated to include this row
     """
     # TODO: update this to support new columns
     acceptable_columns = [
@@ -32,11 +40,13 @@ def db_create_todo(conn: Connection, fields: dict):
 
 def db_read_todo(conn: Connection, id: str):
     """
-    Returns the todo matching 'id' (if it exists) from the database specified by 'conn'
-    @param conn: the database connection
-    @param id: the id of the todo
-    @returns: A dictionary containing the fields
+    Returns the task matching 'id' (if it exists) from the database specified by 'conn'
+
+    :param conn: the database connection
+    :param id: the id of the todo
+    :return: A dictionary containing the fields
     """
+
     # TODO: add in dictionary return using util that converts rows into [dictionary]
     sql = f"SELECT * FROM todo WHERE id = {id}"
     res = conn.execute(sql)
@@ -46,9 +56,11 @@ def db_read_todo(conn: Connection, id: str):
 def db_read_all(conn: Connection):
     """
     Returns all todos (including completed ones)
-    @param conn: the database connection
-    @returns: a list of todos
+
+    :param conn: the database connection
+    :return: a list of todos
     """
+
     sql = f"SELECT * FROM todo"
     res = conn.execute(sql)
     return res.fetchall()
@@ -57,10 +69,13 @@ def db_read_all(conn: Connection):
 def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
     """
     Updates an existing todo with id 'id' in the specified database 'conn' under the table 'todo'.
-    @param conn: the database connection
-    @param id: the id of the todo
-    @param update_fields: the fields to be updated
+
+    :param conn: the database connection
+    :param id: the id of the todo
+    :param update_fields: the fields to be updated
+    :return: No return; updates fields in database
     """
+
     # TODO: define a better way of copying the schema so this doesn't need updating each time
     # TODO: update this to support new columns
     acceptable_columns = [
@@ -86,10 +101,13 @@ def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
 
 def db_delete_todo(conn: Connection, id: str):
     """
-    Deletes the todo with id 'id' if it exists in the database specified by 'conn'
-    @param conn: the database connection
-    @param id: the id of the todo to delete
+    Deletes the task with id 'id' if it exists in the database specified by 'conn'
+
+    :param conn: the database connection
+    :param id: the id of the task to delete
+    :return: no return; deletes the task if it exists in the database
     """
+
     sql = f"DELETE FROM todo WHERE id = {id}"
     conn.execute(sql)
     conn.commit()

@@ -2,3 +2,4 @@
 *.db
 *.pyc
 *.session.sql
+.idea/*
