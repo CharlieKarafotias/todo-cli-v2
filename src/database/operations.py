@@ -1,4 +1,11 @@
-def db_create_todo(conn, fields: dict):
+from sqlite3 import Connection
+
+def db_create_todo(conn: Connection, fields: dict):
+    """
+    Creates a new todo in the database specified by 'conn' under the 'todo' table
+    @param conn: the database connection
+    @param fields: key-value pairs specifying the values to be added for the new todo. Supported keys: "todo_name", "description", "priority"
+    """
     # TODO: update this to support new columns
     acceptable_columns = [
         "todo_name",
@@ -23,19 +30,37 @@ def db_create_todo(conn, fields: dict):
     conn.commit()
 
 
-def db_read_todo(conn, id):
+def db_read_todo(conn: Connection, id: str):
+    """
+    Returns the todo matching 'id' (if it exists) from the database specified by 'conn'
+    @param conn: the database connection
+    @param id: the id of the todo
+    @returns: A dictionary containing the fields
+    """
+    # TODO: add in dictionary return using util that converts rows into [dictionary]
     sql = f"SELECT * FROM todo WHERE id = {id}"
     res = conn.execute(sql)
     print(res.fetchone())
 
 
-def db_read_all(conn):
+def db_read_all(conn: Connection):
+    """
+    Returns all todos (including completed ones)
+    @param conn: the database connection
+    @returns: a list of todos
+    """
     sql = f"SELECT * FROM todo"
     res = conn.execute(sql)
     return res.fetchall()
 
 
-def db_update_todo(conn, id, update_fields: dict = None):
+def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
+    """
+    Updates an existing todo with id 'id' in the specified database 'conn' under the table 'todo'.
+    @param conn: the database connection
+    @param id: the id of the todo
+    @param update_fields: the fields to be updated
+    """
     # TODO: define a better way of copying the schema so this doesn't need updating each time
     # TODO: update this to support new columns
     acceptable_columns = [
@@ -59,7 +84,12 @@ def db_update_todo(conn, id, update_fields: dict = None):
     conn.commit()
 
 
-def db_delete_todo(conn, id):
+def db_delete_todo(conn: Connection, id: str):
+    """
+    Deletes the todo with id 'id' if it exists in the database specified by 'conn'
+    @param conn: the database connection
+    @param id: the id of the todo to delete
+    """
     sql = f"DELETE FROM todo WHERE id = {id}"
     conn.execute(sql)
     conn.commit()
