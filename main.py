@@ -1,8 +1,8 @@
 import os
-from cli.cli import main as cli_main
-from database.initializer import connect_db
-from utils.dotenv_manager import create_dotenv
 from dotenv import load_dotenv
+from src.cli.cli import main as cli_main
+from src.database.initializer import connect_db
+from src.utils.dotenv_manager import create_dotenv
 
 create_dotenv()  # skips if .env already exists
 load_dotenv()

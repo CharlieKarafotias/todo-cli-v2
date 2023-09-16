@@ -1,9 +1,9 @@
-from cli.parsers.top_level import init_top_level
-from database.initializer import init_db
-from database.operations import db_create_todo, db_read_all
-from utils.dotenv_manager import update_db_scope
-from utils.console_printing import print_tasks
-from cli.handlers.status import handler as status_handler
+from src.cli.parsers.top_level import init_top_level
+from src.database.initializer import init_db
+from src.database.operations import db_create_todo, db_read_all
+from src.utils.dotenv_manager import update_db_scope
+from src.utils.console_printing import print_tasks
+from src.cli.handlers.status import handler as status_handler
 
 def main(conn):
     parser = init_top_level()

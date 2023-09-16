@@ -1,8 +1,7 @@
 import argparse
-from argparse import ArgumentParser
 
 
-def init_top_level() -> ArgumentParser:
+def init_top_level() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="Todo CLI",
         description="A CLI for storing daily todo tasks",

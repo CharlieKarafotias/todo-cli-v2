@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from dotenv import load_dotenv
-from database.operations import db_read_all
+from src.database.operations import db_read_all
 
 def handler(conn: sqlite3.Connection) -> dict:
     """

@@ -1,7 +1,7 @@
+from datetime import datetime
 from colorama import init as colorama_init
 from colorama import Fore
 from colorama import Style
-from datetime import datetime
 
 
 def print_err(message):
