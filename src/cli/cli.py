@@ -1,9 +1,8 @@
 from src.cli.parsers.top_level import init_top_level
-from src.database.initializer import init_db
-from src.database.operations import db_create_todo, db_read_all
-from src.utils.dotenv_manager import update_db_scope
-from src.utils.console_printing import print_tasks
 from src.cli.handlers.status import handler as status_handler
+from src.cli.handlers.init import handler as init_handler
+from src.cli.handlers.add import handler as add_handler
+from src.cli.handlers.list import handler as list_handler
 
 def main(conn):
     parser = init_top_level()
@@ -11,21 +10,10 @@ def main(conn):
 
     match args.command:
         case "init":
-            init_db(args.name)
-            # set .env variable
-            update_db_scope(args.name)
+            init_handler(args)
         case "add":
-            db_create_todo(
-                conn,
-                {
-                    "todo_name": args.name,
-                    "description": args.description,
-                    "priority": args.priority,
-                    "tags": args.tags,  # TODO: need to add tags with multiple tables, refer to this: https://stackoverflow.com/questions/334183/what-is-the-most-efficient-way-to-store-tags-in-a-database
-                },
-            )
+            add_handler(conn, args)
         case "list":
-            data = db_read_all(conn)
-            print_tasks(data)
+            list_handler(conn)
         case "status":
             status_handler(conn)

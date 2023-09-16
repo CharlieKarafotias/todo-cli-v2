@@ -11,6 +11,7 @@ def init_top_level() -> argparse.ArgumentParser:
     command_parser = parser.add_subparsers(title="Possible commands", dest="command")
     init_add_level(command_parser)
     init_init_level(command_parser)
+    init_list_level(command_parser)
     init_status_level(command_parser)
     # TODO: add support for listing all tasks, completed tasks, in progress tasks, today's tasks (should be the
     #  default)
@@ -61,12 +62,12 @@ def init_add_level(command_subparser):
 
 
 def init_list_level(command_subparser):
-    parser_read = command_subparser.add_parser("list", help="Lists the tasks currently stored")
-    pass
+    command_subparser.add_parser("list", help="Lists the tasks currently stored")
 
 
 def init_status_level(command_subparser):
     # Init parser instantiation
-    parser_init = command_subparser.add_parser(
-        "status", help="Shows status of the todo cli (current database name and path, task information, etc.)"
+    command_subparser.add_parser(
+        "status",
+        help="Shows status of the todo cli (current database name and path, task information, etc.)"
     )
