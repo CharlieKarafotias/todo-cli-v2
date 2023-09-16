@@ -1,58 +1,13 @@
-import argparse
+from cli.parsers.top_level import init_top_level
 from database.initializer import init_db
 from database.operations import db_create_todo, db_read_all
 from utils.dotenv_manager import update_db_scope
 from utils.console_printing import print_tasks
+from cli.handlers.status import handler as status_handler
 
 
 def main(conn):
-    parser = argparse.ArgumentParser(
-        prog="Todo CLI",
-        description="A CLI for storing daily todo tasks",
-        epilog="Developed in 2023 by Charlie Karafotias",
-    )
-    subparsers = parser.add_subparsers(title="Possible commands", dest="command")
-
-    # Init parser instantiation
-    parser_init = subparsers.add_parser(
-        "init", help="Creates a new SQLite database for storing todo tasks"
-    )
-    parser_init.add_argument(
-        "name",
-        type=str,
-        help="The name of the database. This will be stored in the folder './data/{name}.db",
-    )
-
-    # add new event parser instantiation
-    # Properties to include: title, description, due date, priority, tags
-    parser_add = subparsers.add_parser("add", help="Add a new todo")
-    parser_add.add_argument(
-        "name", help="The name of the todo event to add to the list."
-    )
-    parser_add.add_argument(
-        "-d",
-        "--description",
-        help="The description of the new todo event",
-        required=False,
-    )
-    parser_add.add_argument(
-        "-p",
-        "--priority",
-        help="The priority of the new todo event. The default value will be low priority",
-        default="low",
-        required=False,
-    )
-    parser_add.add_argument(
-        "-t",
-        "--tags",
-        nargs="+",
-        help="One or more tags for the new todo event",
-        required=False,
-    )
-
-    parser_read = subparsers.add_parser("list", help="Lists the tasks currently stored")
-    # TODO: add support for listing all tasks, completed tasks, in progress tasks, todays tasks (should be the default)
-
+    parser = init_top_level()
     args = parser.parse_args()
 
     match args.command:
@@ -73,3 +28,5 @@ def main(conn):
         case "list":
             data = db_read_all(conn)
             print_tasks(data)
+        case "status":
+            status_handler()
