@@ -5,7 +5,6 @@ from utils.dotenv_manager import update_db_scope
 from utils.console_printing import print_tasks
 from cli.handlers.status import handler as status_handler
 
-
 def main(conn):
     parser = init_top_level()
     args = parser.parse_args()
@@ -29,4 +28,4 @@ def main(conn):
             data = db_read_all(conn)
             print_tasks(data)
         case "status":
-            status_handler()
+            status_handler(conn)
