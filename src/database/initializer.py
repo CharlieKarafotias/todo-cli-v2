@@ -9,9 +9,11 @@ ROOT_DIR = os.getenv("ROOT_DIR")
 def connect_db(db_name: str) -> sqlite3.Connection:
     """
     Connects / Creates a new database and returns the connection
-    @param db_name: the name of the database (file name)
-    @return: the new database connection or None db can't be created
+
+    :param db_name: the name of the database (file name)
+    :return: the new database connection or None db can't be created
     """
+
     conn = sqlite3.connect(os.path.join(ROOT_DIR, "data", f"{db_name}.db"))
     return conn
 
@@ -19,8 +21,11 @@ def connect_db(db_name: str) -> sqlite3.Connection:
 def setup_table(conn):
     """
     Initializes the database with the given schema
-    @param conn: the database connection
+
+    :param conn: the database connection
+    :return: no return; sets up table to hold tasks
     """
+
     cur = conn.cursor()
     schema = ""
     with open(
@@ -37,9 +42,11 @@ def setup_table(conn):
 def init_db(db_name: str) -> sqlite3.Connection:
     """
     Creates a new database, sets up a todo table and returns the connection
-    @param db_name: the name of the database file
-    @returns: A database connection with a table named todo
+
+    :param db_name: the name of the database file
+    :return: A database connection with a configured table to hold tasks
     """
+    
     if os.path.isfile(os.path.join(ROOT_DIR, "data", f"{db_name}.db")):
         conn = connect_db(db_name)
     else:
