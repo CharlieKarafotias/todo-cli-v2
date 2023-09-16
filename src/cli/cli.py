@@ -1,7 +1,8 @@
 import argparse
 from database.initializer import init_db
-from database.operations import db_create_todo
+from database.operations import db_create_todo, db_read_all
 from utils.dotenv_manager import update_db_scope
+from utils.console_printing import print_tasks
 
 
 def main(conn):
@@ -49,6 +50,9 @@ def main(conn):
         required=False,
     )
 
+    parser_read = subparsers.add_parser("list", help="Lists the tasks currently stored")
+    # TODO: add support for listing all tasks, completed tasks, in progress tasks, todays tasks (should be the default)
+
     args = parser.parse_args()
 
     match args.command:
@@ -66,3 +70,6 @@ def main(conn):
                     "tags": args.tags,  # TODO: need to add tags with multiple tables, refer to this: https://stackoverflow.com/questions/334183/what-is-the-most-efficient-way-to-store-tags-in-a-database
                 },
             )
+        case "list":
+            data = db_read_all(conn)
+            print_tasks(data)
