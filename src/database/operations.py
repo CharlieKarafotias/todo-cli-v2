@@ -1,4 +1,5 @@
-from sqlite3 import Connection
+from sqlite3 import Connection, OperationalError
+from src.utils.console_printing import print_err
 
 
 def db_create_todo(conn: Connection, fields: dict) -> None:
@@ -22,20 +23,23 @@ def db_create_todo(conn: Connection, fields: dict) -> None:
     ]
 
     # check which fields are updated and add them to verified_fields
-    verified_fields = {}
-    for k, v in fields.items():
-        if k in acceptable_columns:
-            verified_fields[k] = v
+    try:
+        verified_fields = {}
+        for k, v in fields.items():
+            if k in acceptable_columns:
+                verified_fields[k] = v
 
-    sql = "INSERT INTO todo ("
-    for k in verified_fields.keys():
-        sql = sql + f"{k}, "
-    sql = sql[:-2] + ") VALUES ("
-    for k in verified_fields.values():
-        sql = sql + f"'{k}', "
-    sql = sql[:-2] + ")"
-    conn.execute(sql)
-    conn.commit()
+        sql = "INSERT INTO todo ("
+        for k in verified_fields.keys():
+            sql = sql + f"{k}, "
+        sql = sql[:-2] + ") VALUES ("
+        for k in verified_fields.values():
+            sql = sql + f"'{k}', "
+        sql = sql[:-2] + ")"
+        conn.execute(sql)
+        conn.commit()
+    except OperationalError:
+        print_err('ERROR: Unable to add to database at this time')
 
 
 def db_read_todo(conn: Connection, id: str):
