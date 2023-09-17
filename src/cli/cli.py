@@ -9,6 +9,46 @@ from src.cli.handlers.setdb import handler as setdb_handler
 from src.cli.handlers.listdb import handler as listdb_handler
 
 def main(conn):
+    """
+    Design for CLI
+        todo
+            |-- add
+            |-- delete
+            |-- init
+            |-- list
+            |-- listdb
+            |-- setdb
+            |-- status
+            |-- uninit
+            |-- update
+    TODO: Proposed Design for Future CLI
+        todo
+            |-- database
+                |-- add
+                    |-- name
+                |-- remove
+                    |-- name
+                |-- list
+                |-- set
+                    |-- name
+            |-- task
+                |-- add
+                    |-- name
+                    |-- --description
+                    |-- --priority
+                    |-- --tags
+                |-- complete
+                    |-- id
+                |-- delete
+                    |-- id
+                |-- list
+                |-- remove
+                    |-- id
+                |-- update
+                    |-- id
+                    |-- fields (probably a walk along CLI or something)
+            |-- status (program level status)
+    """
     parser = init_top_level()
     args = parser.parse_args()
 
