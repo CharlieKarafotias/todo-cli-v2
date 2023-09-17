@@ -2,6 +2,10 @@ import argparse
 
 
 def init_top_level() -> argparse.ArgumentParser:
+    """
+    Initializes the top level parser and attaches a command subparser to the top level.
+    :return: returns a fully initializes parser with all available commands attached
+    """
     parser = argparse.ArgumentParser(
         prog="Todo CLI",
         description="A CLI for storing daily todo tasks",
@@ -10,19 +14,23 @@ def init_top_level() -> argparse.ArgumentParser:
 
     command_parser = parser.add_subparsers(title="Possible commands", dest="command")
     init_add_level(command_parser)
+    init_delete_level(command_parser)
     init_init_level(command_parser)
     init_list_level(command_parser)
     init_status_level(command_parser)
     # TODO: add support for listing all tasks, completed tasks, in progress tasks, today's tasks (should be the
     #  default)
-    #  TODO: add support for status (should show current database (name); where it is stored; number of
-    #   tasks today; total task number)
 
     return parser
 
 
 def init_init_level(command_subparser):
-    # Init parser instantiation
+    """
+    Initializes the subparser for the init operation. 
+    The init parser defines the name argument representing the name of the database file.
+    :param command_subparser: a subparser representing a command
+    :return: no return; the init command is added as an option for the command position of the CLI
+    """
     parser_init = command_subparser.add_parser(
         "init", help="Creates a new SQLite database for storing todo tasks"
     )
@@ -34,7 +42,12 @@ def init_init_level(command_subparser):
 
 
 def init_add_level(command_subparser):
-    # Properties to include: title, description, due date, priority, tags
+    """
+    Initializes the subparser for the add operation. 
+    The add parser defines several arguments: name, --description, --priority, --tags
+    :param command_subparser: a subparser representing a command
+    :return: no return; the add command is added as an option for the command position of the CLI
+    """
     parser_add = command_subparser.add_parser("add", help="Add a new todo")
     parser_add.add_argument(
         "name", help="The name of the todo event to add to the list."
@@ -62,12 +75,33 @@ def init_add_level(command_subparser):
 
 
 def init_list_level(command_subparser):
+    """
+    Initializes the subparser for the list operation. 
+    :param command_subparser: a subparser representing a command
+    :return: no return; the list command is added as an option for the command position of the CLI
+    """
     command_subparser.add_parser("list", help="Lists the tasks currently stored")
 
 
 def init_status_level(command_subparser):
-    # Init parser instantiation
+    """
+    Initializes the subparser for the status operation. 
+    :param command_subparser: a subparser representing a command
+    :return: no return; the status command is added as an option for the command position of the CLI
+    """
     command_subparser.add_parser(
         "status",
         help="Shows status of the todo cli (current database name and path, task information, etc.)"
+    )
+
+
+def init_delete_level(command_subparser):
+    """
+    Initializes the subparser for the delete operation. 
+    :param command_subparser: a subparser representing a command
+    :return: no return; the delete command is added as an option for the command position of the CLI
+    """
+    parser_delete = command_subparser.add_parser("delete", help="Deletes a task")
+    parser_delete.add_argument(
+        "id", help="The id of the task to delete"
     )
