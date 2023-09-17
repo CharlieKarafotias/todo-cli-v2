@@ -46,7 +46,10 @@ def main(conn):
                     |-- id
                 |-- update
                     |-- id
-                    |-- fields (probably a walk along CLI or something)
+                    |-- --name
+                    |-- --description
+                    |-- --priority
+                    |-- --tags
             |-- status (program level status)
     """
     parser = init_top_level()
