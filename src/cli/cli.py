@@ -6,6 +6,7 @@ from src.cli.handlers.list import handler as list_handler
 from src.cli.handlers.delete import handler as delete_handler
 from src.cli.handlers.uninit import handler as uninit_handler
 from src.cli.handlers.setdb import handler as setdb_handler
+from src.cli.handlers.listdb import handler as listdb_handler
 
 def main(conn):
     parser = init_top_level()
@@ -23,7 +24,7 @@ def main(conn):
         case "list":
             list_handler(conn)
         case "listdb":
-            pass
+            listdb_handler()
         case "setdb":
             setdb_handler(args)
         case "status":

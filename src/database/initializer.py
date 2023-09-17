@@ -80,3 +80,14 @@ def existing_db(db_name: str) -> bool:
     :return: True if the database exists, False otherwise
     """
     return os.path.exists(os.path.join(ROOT_DIR, "data", f"{db_name}.db"))
+
+
+def list_dbs() -> list[(str, str)]:
+    """
+    Returns a list of all databases
+    :return: A list[(str, str)] of all database names and path locations
+    """
+    res = []
+    for name in os.listdir(os.path.join(ROOT_DIR, "data")):
+        res.append((name, os.path.join(ROOT_DIR, "data", name)))
+    return res

@@ -17,6 +17,7 @@ def init_top_level() -> argparse.ArgumentParser:
     init_delete_level(command_parser)
     init_init_level(command_parser)
     init_list_level(command_parser)
+    init_listdb_level(command_parser)
     init_setdb_level(command_parser)
     init_status_level(command_parser)
     init_uninit_level(command_parser)
@@ -139,3 +140,12 @@ def init_setdb_level(command_subparser):
         type=str,
         help="The name of the database to change to.",
     )
+
+
+def init_listdb_level(command_subparser):
+    """
+    Initializes the subparser for the listdb operation. 
+    :param command_subparser: a subparser representing a command
+    :return: no return; the listdb command is added as an option for the command position of the CLI
+    """
+    command_subparser.add_parser("listdb", help="List existing databases")

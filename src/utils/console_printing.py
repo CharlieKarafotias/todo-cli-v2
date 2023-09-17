@@ -43,3 +43,22 @@ def print_tasks(data):
     
     table = AsciiTable(table_data)
     print(table.table)
+
+def print_databases(data) -> None:
+    """
+    Turns a list of databases into a nicely formatted console output.
+    :param data: a list of databases in format [(db_name, db_filepath)]
+    :return: None; prints to console
+    """
+
+    columns = ['Database Name', 'File Location']
+
+    table_data = [
+        columns
+    ]
+
+    for db in data:
+        table_data.append([db[0], db[1]])
+
+    table = AsciiTable(table_data)
+    print(table.table)
