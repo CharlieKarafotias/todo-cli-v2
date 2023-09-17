@@ -17,9 +17,9 @@ def init_top_level() -> argparse.ArgumentParser:
     init_delete_level(command_parser)
     init_init_level(command_parser)
     init_list_level(command_parser)
+    init_setdb_level(command_parser)
     init_status_level(command_parser)
-    # TODO: add support for listing all tasks, completed tasks, in progress tasks, today's tasks (should be the
-    #  default)
+    init_uninit_level(command_parser)
 
     return parser
 
@@ -104,4 +104,38 @@ def init_delete_level(command_subparser):
     parser_delete = command_subparser.add_parser("delete", help="Deletes a task")
     parser_delete.add_argument(
         "id", help="The id of the task to delete"
+    )
+
+
+def init_uninit_level(command_subparser):
+    """
+    Initializes the subparser for the uninit operation. 
+    The uninit parser deletes the current database (if it exists) and resets the .env file
+    :param command_subparser: a subparser representing a command
+    :return: no return; the uninit command is added as an option for the command position of the CLI
+    """
+    parser_init = command_subparser.add_parser(
+        "uninit", help="Deletes an existing SQLite database (if it exists)"
+    )
+    parser_init.add_argument(
+        "name",
+        type=str,
+        help="The name of the database. The current database set can be found by running the 'status' command",
+    )
+
+
+def init_setdb_level(command_subparser):
+    """
+    Initializes the subparser for the setdb operation. 
+    :param command_subparser: a subparser representing a command
+    :return: no return; the setdb command is added as an option for the command position of the CLI
+    """
+    parser_setdb = command_subparser.add_parser(
+        "setdb",
+        help="Change the working database to a different (already existing) database. Use the listdb command to see all existing databases."
+    )
+    parser_setdb.add_argument(
+        "name",
+        type=str,
+        help="The name of the database to change to.",
     )

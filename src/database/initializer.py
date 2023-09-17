@@ -58,12 +58,25 @@ def init_db(db_name: str) -> sqlite3.Connection:
     return conn
 
 
-def remove_db(db_name: str) -> None:
+def remove_db(db_name: str) -> bool:
     """
     Removes a database if it exists
 
     :param db_name: the database name (file name)
-    :return: no return; removes the database if it exists
+    :return: returns True if database was removed successfully; false otherwise
     """
     if os.path.isfile(os.path.join(ROOT_DIR, "data", f"{db_name}.db")):
         os.remove(os.path.join(ROOT_DIR, "data", f"{db_name}.db"))
+        return True
+    else:
+        return False
+
+
+def existing_db(db_name: str) -> bool:
+    """
+    Checks if the specified database exists
+
+    :param db_name: the name of the database (file name)
+    :return: True if the database exists, False otherwise
+    """
+    return os.path.exists(os.path.join(ROOT_DIR, "data", f"{db_name}.db"))

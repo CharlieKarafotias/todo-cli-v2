@@ -4,6 +4,8 @@ from src.cli.handlers.init import handler as init_handler
 from src.cli.handlers.add import handler as add_handler
 from src.cli.handlers.list import handler as list_handler
 from src.cli.handlers.delete import handler as delete_handler
+from src.cli.handlers.uninit import handler as uninit_handler
+from src.cli.handlers.setdb import handler as setdb_handler
 
 def main(conn):
     parser = init_top_level()
@@ -20,11 +22,14 @@ def main(conn):
             init_handler(args)
         case "list":
             list_handler(conn)
+        case "listdb":
+            pass
+        case "setdb":
+            setdb_handler(args)
         case "status":
             status_handler(conn)
         case "uninit":
-            # uninit_handler(conn)
-            pass
+            uninit_handler(args)
         case "update":
             # update_handler(conn)
             pass
