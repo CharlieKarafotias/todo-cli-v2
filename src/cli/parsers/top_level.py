@@ -21,6 +21,7 @@ def init_top_level() -> argparse.ArgumentParser:
     init_setdb_level(command_parser)
     init_status_level(command_parser)
     init_uninit_level(command_parser)
+    init_update_level(command_parser)
 
     return parser
 
@@ -149,3 +150,41 @@ def init_listdb_level(command_subparser):
     :return: no return; the listdb command is added as an option for the command position of the CLI
     """
     command_subparser.add_parser("listdb", help="List existing databases")
+
+
+def init_update_level(command_subparser):
+    """
+    Initializes the subparser for the update operation. 
+    The update parser defines several arguments: id, --name, --description, --priority, --tags
+    :param command_subparser: a subparser representing a command
+    :return: no return; the update command is added as an option for the command position of the CLI
+    """
+    parser_update = command_subparser.add_parser("update", help="Update an existing task")
+    parser_update.add_argument(
+        "id", help="The id of the task to update"
+    )
+    parser_update.add_argument(
+        "-n",
+        "--name",
+        help="Update the name of the task",
+        required=False,
+    )
+    parser_update.add_argument(
+        "-d",
+        "--description",
+        help="Update the description of the task",
+        required=False,
+    )
+    parser_update.add_argument(
+        "-p",
+        "--priority",
+        help="Update the priority of the task",
+        required=False,
+    )
+    parser_update.add_argument(
+        "-t",
+        "--tags",
+        nargs="+",
+        help="Update the tags of the task",
+        required=False,
+    )

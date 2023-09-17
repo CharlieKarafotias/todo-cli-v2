@@ -7,6 +7,7 @@ from src.cli.handlers.delete import handler as delete_handler
 from src.cli.handlers.uninit import handler as uninit_handler
 from src.cli.handlers.setdb import handler as setdb_handler
 from src.cli.handlers.listdb import handler as listdb_handler
+from src.cli.handlers.update import handler as update_handler
 
 def main(conn):
     """
@@ -75,5 +76,4 @@ def main(conn):
         case "uninit":
             uninit_handler(args)
         case "update":
-            # update_handler(conn)
-            pass
+            update_handler(conn, args)

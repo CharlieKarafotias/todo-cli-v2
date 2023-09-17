@@ -77,11 +77,12 @@ def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
     :param update_fields: the fields to be updated
     :return: No return; updates fields in database
     """
-
-    # TODO: define a better way of copying the schema so this doesn't need updating each time
-    # TODO: update this to support new columns
+    
+    # TODO: update this to support: tags
     acceptable_columns = [
         "todo_name",
+        "description",
+        "priority"
     ]
     # check which fields are updated and add them to verified_fields
     verified_fields = {}
@@ -89,16 +90,17 @@ def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
         if k in acceptable_columns:
             verified_fields[k] = v
 
-    sql = f"UPDATE todo SET "
-    # append the updated fields into the sql statement
+    if verified_fields:
+        sql = f"UPDATE todo SET "
+        # append the updated fields into the sql statement
 
-    for k, v in verified_fields.items():
-        sql = sql + f"{k} = '{v}', "
+        for k, v in verified_fields.items():
+            sql = sql + f"{k} = '{v}', "
 
-    # get full sql except ", " and then add id to update
-    sql = sql[:-2] + f" WHERE id = {id}"
-    conn.execute(sql)
-    conn.commit()
+        # get full sql except ", " and then add id to update
+        sql = sql[:-2] + f" WHERE id = {id}"
+        conn.execute(sql)
+        conn.commit()
 
 
 def db_delete_todo(conn: Connection, id: str):
