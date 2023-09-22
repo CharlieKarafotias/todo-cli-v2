@@ -51,3 +51,60 @@ class TestDBOperations:
         # ensure correct error message
         out, _ = capfd.readouterr()
         assert out == "ERROR: Unable to add to database at this time\n"
+
+
+    def test_db_create_todo_minimum_valid_fields(self):
+        """
+        Test to ensure that a new task is created correctly when all valid fields
+        are supplied.
+        """
+        fields = {
+            'todo_name': 'minimum task field',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, '1')
+        assert res[0] == 1  # check id
+        assert res[1] == fields['todo_name'] # check todo_name
+        assert res[2] is None # check description is not set
+        assert res[3] is None # check priority is not set
+
+
+    def test_db_read_todo_invalid_id(self, capfd):
+        """
+        Test to ensure that a db_read_todo does not return a todo
+        when the id given doesn't exist in the database.
+        """
+        res = db_read_todo(self._conn, '1')
+        out, _ = capfd.readouterr()
+        assert out == "None\n"
+        assert res is None
+
+
+    def test_db_read_todo_valid_id(self, capfd):
+        """
+        Test to ensure that after a new task is created, it 
+        can be read correctly.
+        """
+        # Create task and add to db
+        fields = {
+            'todo_name': 'test',
+            'description': 'this is a test todo',
+            'priority': 'medium'
+        }
+        db_create_todo(self._conn, fields)
+
+        # Read todo
+        res = db_read_todo(self._conn, '1')
+
+        # Ensure printout occurs
+        out, _ = capfd.readouterr()
+        assert out is not None
+
+        # Ensure fields in return tuple are correct
+        assert res[0] == 1  # check id
+        assert res[1] == fields['todo_name'] # check todo_name
+        assert res[2] == fields['description'] # check description
+        assert res[3] == fields['priority'] # check priority
+
+# TODO add tests for all operation functions (read_all, update_todo, delete_todo)
+# TODO add tests for new cli using the described proposed plan

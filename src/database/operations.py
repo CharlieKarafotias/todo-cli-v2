@@ -51,7 +51,7 @@ def db_read_todo(conn: Connection, id: str):
     :return: A dictionary containing the fields
     """
 
-    # TODO: add in dictionary return using util that converts rows into [dictionary]
+    # TODO: add in dictionary return using util that converts rows into [dictionary] (with keys as column names)
     sql = f"SELECT * FROM todo WHERE id = {id}"
     res = conn.execute(sql)
     val = res.fetchone()
