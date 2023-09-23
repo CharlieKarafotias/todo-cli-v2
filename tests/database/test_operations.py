@@ -106,5 +106,69 @@ class TestDBOperations:
         assert res[2] == fields['description'] # check description
         assert res[3] == fields['priority'] # check priority
 
+
+    def test_db_read_all_empty_db(self):
+        """
+        Test to ensure that read_all returns [] and no printout when
+        there are no tasks in the database.
+        """
+        # Read all todos
+        res = db_read_all(self._conn)
+
+        # Ensure Empty List Is Returned
+        assert res == []
+
+
+    def test_db_read_all_multiple_tasks(self):
+        """
+        Test to ensure that read_all returns list of tasks 
+        when database has tasks.
+        """
+        # Create multiple tasks
+        fields = {
+            'todo_name': 'minimum task field',
+        }
+        db_create_todo(self._conn, fields)
+        db_create_todo(self._conn, fields)
+        db_create_todo(self._conn, fields)
+
+        # Read all todos
+        res = db_read_all(self._conn)
+
+        # Ensure List Is Returned
+        assert len(res) == 3
+        # Ensure tasks are listed
+        assert res[1][1] == 'minimum task field'
+
+
+    def test_db_update_todo_valid_field(self):
+        """
+        Test that db_update_todo updates the correct field
+        """
+        assert True
+
+
+    def test_db_update_todo_multiple_valid_field(self):
+        """
+        Test that db_update_todo updates all the valid fields.
+        """
+        assert True
+
+
+    def test_db_update_todo_invalid_field(self):
+        """
+        Test that db_update_todo does not apply the invalid fields
+        and no update occurs.
+        """
+        assert True
+
+    def test_db_update_todo_valid_and_invalid_field(self):
+        """
+        Test that db_update_todo updates only the valid fields
+        and ignores the invalid ones.
+        """
+        assert True
+
+
 # TODO add tests for all operation functions (read_all, update_todo, delete_todo)
 # TODO add tests for new cli using the described proposed plan

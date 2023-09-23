@@ -81,7 +81,7 @@ def db_update_todo(conn: Connection, id: str, update_fields: dict = None):
     :param update_fields: the fields to be updated
     :return: No return; updates fields in database
     """
-    
+
     # TODO: update this to support: tags
     acceptable_columns = [
         "todo_name",
