@@ -145,14 +145,39 @@ class TestDBOperations:
         """
         Test that db_update_todo updates the correct field
         """
-        assert True
+        # Create new task
+        fields = {
+            'todo_name': 'task1',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, 1)
+        assert res[1] == 'task1'
+
+        db_update_todo(self._conn, 1, { 'todo_name': 'updated name' })
+        res = db_read_todo(self._conn, 1)
+        assert res[1] == 'updated name'
 
 
     def test_db_update_todo_multiple_valid_field(self):
         """
         Test that db_update_todo updates all the valid fields.
         """
-        assert True
+        # Create new task
+        fields = {
+            'todo_name': 'task1',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, 1)
+        assert res[1] == 'task1'
+        assert res[2] is None
+
+        db_update_todo(self._conn, 1, {
+            'todo_name': 'updated name',
+            'description': 'new field added',
+        })
+        res = db_read_todo(self._conn, 1)
+        assert res[1] == 'updated name'
+        assert res[2] == 'new field added'
 
 
     def test_db_update_todo_invalid_field(self):
@@ -160,14 +185,47 @@ class TestDBOperations:
         Test that db_update_todo does not apply the invalid fields
         and no update occurs.
         """
-        assert True
+        # Create new task
+        fields = {
+            'todo_name': 'task1',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, 1)
+        assert res[0] == 1
+        assert res[1] == 'task1'
+        assert res[2] is None
+        assert res[3] is None
+
+        db_update_todo(self._conn, 1, { 'unknown': 'updated name' })
+        res = db_read_todo(self._conn, 1)
+        assert res[0] == 1
+        assert res[1] == 'task1'
+        assert res[2] is None
+        assert res[3] is None
+
 
     def test_db_update_todo_valid_and_invalid_field(self):
         """
         Test that db_update_todo updates only the valid fields
         and ignores the invalid ones.
         """
-        assert True
+        # Create new task
+        fields = {
+            'todo_name': 'task1',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, 1)
+        assert res[0] == 1
+        assert res[1] == 'task1'
+        assert res[2] is None
+        assert res[3] is None
+
+        db_update_todo(self._conn, 1, { 'unknown': 'updated name', 'priority': 'low' })
+        res = db_read_todo(self._conn, 1)
+        assert res[0] == 1
+        assert res[1] == 'task1'
+        assert res[2] is None
+        assert res[3] == 'low'
 
 
 # TODO add tests for all operation functions (read_all, update_todo, delete_todo)
