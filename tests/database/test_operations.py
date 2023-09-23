@@ -228,5 +228,40 @@ class TestDBOperations:
         assert res[3] == 'low'
 
 
-# TODO add tests for all operation functions (read_all, update_todo, delete_todo)
+    def test_db_delete_todo_that_exists(self):
+        """
+        Test to ensure that db_delete_todo deletes an existing task.
+        """
+        fields = {
+            'todo_name': 'minimum task field',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, '1')
+        assert res[0] == 1
+        assert res[1] == fields['todo_name']
+
+        db_delete_todo(self._conn, 1)
+        res = db_read_all(self._conn)
+        assert len(res) == 0
+
+
+    def test_db_delete_todo_that_does_not_exists(self):
+        """
+        Test to ensure that db_delete_todo doesn't delete an existing task
+        when given an invalid id.
+        """
+        fields = {
+            'todo_name': 'minimum task field',
+        }
+        db_create_todo(self._conn, fields)
+        res = db_read_todo(self._conn, '1')
+        assert res[0] == 1
+        assert res[1] == fields['todo_name']
+
+        db_delete_todo(self._conn, 2)
+        res = db_read_all(self._conn)
+        assert len(res) == 1
+        assert res[0][0] == 1
+        assert res[0][1] == fields['todo_name']
+
 # TODO add tests for new cli using the described proposed plan
